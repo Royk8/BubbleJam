@@ -11,4 +11,17 @@ public class WallCollision : MonoBehaviour
             catPaw.StartAttack(other.transform);  // Inicia el ataque de la pata
         }
     }
+
+    public void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))  // Cuando el jugador sale del área del trigger
+        {
+            if (catPaw.isAttacking && !catPaw.hasPushedPlayer)  // Si está atacando y no ha empujado al jugador
+            {
+                catPaw.ReturnToInitialPosition();  // Regresa la pata a su posición inicial
+                Debug.Log("El jugador salió del trigger, devolviendo la pata.");
+            }
+        }
+    }
+
 }

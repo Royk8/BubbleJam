@@ -10,7 +10,6 @@ public class pawCollision : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player") && padre.isAttacking)  // Verifica si está atacando y colisiona con el jugador
         {
-            padre.isAttacking = false;  // Detiene el ataque
             padre.pawRigidbody.velocity = Vector3.zero;  // Detiene el movimiento de la pata
 
             padre.PushPlayer(other.collider);  // Aplica el empuje

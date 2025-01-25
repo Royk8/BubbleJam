@@ -5,11 +5,12 @@ TagManager:
   serializedVersion: 2
   tags:
   - Elevator
+  - CatPaw
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - CatPaw
   - Water
   - UI
   - 

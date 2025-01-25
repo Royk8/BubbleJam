@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 
 public class CatPaw : MonoBehaviour
 {
@@ -15,7 +15,7 @@ public class CatPaw : MonoBehaviour
     private Transform playerTransform;     // Transform del jugador
     private Vector3 initialPosition;       // Posición inicial de la pata
 
-    private bool hasPushedPlayer = false;  // Estado para controlar si ya empujó al jugador
+    public bool hasPushedPlayer = false;  // Estado para controlar si ya empujó al jugador
 
     private void Update()
     {
@@ -56,15 +56,17 @@ public class CatPaw : MonoBehaviour
     // Este método se llama cuando la pata entra en contacto con el jugador
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player") && isAttacking)  // Verifica si está atacando y colisiona con el jugador
+        if (other.gameObject.CompareTag("Player") && isAttacking)
         {
-            isAttacking = false;  // Detiene el ataque
-            pawRigidbody.velocity = Vector3.zero;  // Detiene el movimiento de la pata
+            isAttacking = false;
+            hasPushedPlayer = true;  // Marca que el jugador fue empujado
+            pawRigidbody.velocity = Vector3.zero;
 
-            PushPlayer(other.collider);  // Aplica el empuje
-            ReturnToInitialPosition();  // Regresa la pata a su posición inicial
+            PushPlayer(other.collider);
+            ReturnToInitialPosition();
         }
     }
+
 
 
     // Aplica el empujón al jugador cuando lo toca
@@ -84,6 +86,19 @@ public class CatPaw : MonoBehaviour
         }
     }
 
+    public void StopAttack()
+    {
+        if (currentPaw != null)
+        {
+            isAttacking = false;  // Detén el estado de ataque
+            pawRigidbody.velocity = Vector3.zero;  // Detén cualquier movimiento actual
+            ReturnToInitialPosition();  // Asegura que la pata regrese a su posición inicial
+        }
+    }
+
+
+
+
     // Regresa la pata a su posición inicial y la destruye después
     public void ReturnToInitialPosition()
     {
@@ -93,21 +108,34 @@ public class CatPaw : MonoBehaviour
 
     private IEnumerator MovePawBackAndDestroy()
     {
+        if (currentPaw == null || !isAttacking)  // Verifica si la pata ya ha sido destruida
+        {
+            yield break;  // Si la pata ya no existe o el ataque ha terminado, salimos de la corutina
+        }
+
         float duration = 1f;  // Tiempo para regresar a la posición inicial
         float elapsedTime = 0f;
         Vector3 startPosition = currentPaw.transform.position;
 
         while (elapsedTime < duration)
         {
+            if (currentPaw == null)  // Si la pata se destruye durante la corutina
+            {
+                yield break;  // Detiene la corutina si el objeto ya no existe
+            }
+
             currentPaw.transform.position = Vector3.Lerp(startPosition, initialPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        currentPaw.transform.position = initialPosition;  // Asegura la posición final
-        Destroy(currentPaw);  // Destruye la pata
-        isAttacking = false;  // Resetea el estado de ataque
-        hasPushedPlayer = false;  // Resetea el estado de empuje
+        if (currentPaw != null)  // Verifica que el objeto aún exista antes de destruirlo
+        {
+            currentPaw.transform.position = initialPosition;  // Asegura la posición final
+            Destroy(currentPaw);  // Destruye la pata
+            isAttacking = false;  // Resetea el estado de ataque
+        }
     }
+
 
 }

@@ -7,13 +7,15 @@ public class CatPaw : MonoBehaviour
     public Transform[] spawnPoints;        // Puntos donde la pata puede aparecer
     public float moveSpeed = 20f;          // Velocidad con la que se mueve la pata
     private GameObject currentPaw;         // La pata instanciada en la escena
-    private bool isAttacking = false;      // Estado para saber si la pata está en ataque
-    private Rigidbody pawRigidbody;        // Rigidbody de la pata
+    public bool isAttacking = false;      // Estado para saber si la pata está en ataque
+    public Rigidbody pawRigidbody;        // Rigidbody de la pata
 
     // Variables de control de la fuerza
     public float pushForce = 15f;  // Fuerza de empuje ajustada
     private Transform playerTransform;     // Transform del jugador
     private Vector3 initialPosition;       // Posición inicial de la pata
+
+    private bool hasPushedPlayer = false;  // Estado para controlar si ya empujó al jugador
 
     private void Update()
     {
@@ -33,6 +35,8 @@ public class CatPaw : MonoBehaviour
 
         currentPaw = Instantiate(pawPrefab, spawnPoint.position, Quaternion.identity);  // Instancia la pata
         pawRigidbody = currentPaw.GetComponent<Rigidbody>();  // Obtén el Rigidbody de la pata
+        pawCollision currentPawCollision = currentPaw.GetComponent<pawCollision>();
+        currentPawCollision.padre = this;
 
         initialPosition = currentPaw.transform.position; // Guardamos la posición inicial de la pata
         playerTransform = player;  // Guarda la referencia al transform del jugador
@@ -52,25 +56,26 @@ public class CatPaw : MonoBehaviour
     // Este método se llama cuando la pata entra en contacto con el jugador
     private void OnCollisionEnter(Collision other)
     {
-        if (other.gameObject.CompareTag("Player"))  // Asegúrate de que el jugador tenga la etiqueta "Player"
+        if (other.gameObject.CompareTag("Player") && isAttacking)  // Verifica si está atacando y colisiona con el jugador
         {
-            // Aplica el empujón inmediatamente
-            PushPlayer(other.collider);
+            isAttacking = false;  // Detiene el ataque
+            pawRigidbody.velocity = Vector3.zero;  // Detiene el movimiento de la pata
 
-            // Regresa la pata a su posición inicial
-            ReturnToInitialPosition();
+            PushPlayer(other.collider);  // Aplica el empuje
+            ReturnToInitialPosition();  // Regresa la pata a su posición inicial
         }
     }
 
+
     // Aplica el empujón al jugador cuando lo toca
-    private void PushPlayer(Collider playerCollider)
+    public void PushPlayer(Collider playerCollider)
     {
         Rigidbody playerRb = playerCollider.GetComponent<Rigidbody>();
         if (playerRb != null)
         {
             // Calcula la dirección contraria a la que la pata tocó al jugador
             Vector3 hitDirection = playerCollider.transform.position - currentPaw.transform.position;
-            Vector3 pushDirection = -hitDirection.normalized;  // Invierte la dirección para empujar al jugador hacia atrás
+            Vector3 pushDirection = hitDirection.normalized;  // Invierte la dirección para empujar al jugador hacia atrás
 
             // Aplica una fuerza para empujar al jugador
             playerRb.AddForce(pushDirection * pushForce, ForceMode.Impulse);  // Usamos "Impulse" para un empujón inmediato
@@ -80,7 +85,7 @@ public class CatPaw : MonoBehaviour
     }
 
     // Regresa la pata a su posición inicial y la destruye después
-    private void ReturnToInitialPosition()
+    public void ReturnToInitialPosition()
     {
         // Mueve la pata a su posición inicial antes de destruirla
         StartCoroutine(MovePawBackAndDestroy());
@@ -94,17 +99,15 @@ public class CatPaw : MonoBehaviour
 
         while (elapsedTime < duration)
         {
-            // Mueve la pata a la posición inicial de forma suave (lerp)
             currentPaw.transform.position = Vector3.Lerp(startPosition, initialPosition, elapsedTime / duration);
             elapsedTime += Time.deltaTime;
             yield return null;
         }
 
-        // Asegura que la pata llegue exactamente a la posición inicial
-        currentPaw.transform.position = initialPosition;
-
-        // Destruye la pata después de moverse a su posición inicial
-        Destroy(currentPaw);  // Destruye la pata después de usarla
-        isAttacking = false;  // La pata ya no está atacando
+        currentPaw.transform.position = initialPosition;  // Asegura la posición final
+        Destroy(currentPaw);  // Destruye la pata
+        isAttacking = false;  // Resetea el estado de ataque
+        hasPushedPlayer = false;  // Resetea el estado de empuje
     }
+
 }

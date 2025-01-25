@@ -10,6 +10,7 @@ public class NonAgentMovement : MonoBehaviour
     public float recoveryTime;
     public bool recovering= false;
     public GiroDescontrolado giroDescontrolado;
+    private bool AlreadyReactivated = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,28 +20,30 @@ public class NonAgentMovement : MonoBehaviour
 
     private void Update()
     {
-        if (Time.time - agentDeactivationTime > recoveryTime)
+        if (Time.time - agentDeactivationTime > recoveryTime && !AlreadyReactivated)
         {
             ActivateAgent();
+            AlreadyReactivated = true;
         }
     }
 
-    private void OnCollisionEnter(Collision collision)
+    private void OnTriggerEnter(Collider other)
     {
         Debug.Log("Collision");
-        if (collision.gameObject.CompareTag("Player"))
+        if (other.gameObject.CompareTag("Attacker"))
         {
             Debug.Log("Player");
-            agentController.DeactivateAgent();
+            agentController.EnterAttacked();
             agentDeactivationTime = Time.time;
             recovering = true;
             giroDescontrolado.EmpezarAGirar();
+            AlreadyReactivated = false;
         }
     }
 
     private void ActivateAgent()
     {
-        agentController.ActivateAgent();
+        agentController.LeavingAttacked();
         rb.velocity = Vector3.zero;
         recovering = false;
         giroDescontrolado.PararGiro();

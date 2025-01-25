@@ -7,7 +7,7 @@ public class SeguidorMovement : MonoBehaviour
     public Transform target;
     public float targetRotation;
     public float targetSpeed;
-    public BallMovement ball;
+    public BallMovementRoy ball;
     // Start is called before the first frame update
     void Start()
     {

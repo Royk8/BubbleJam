@@ -28,6 +28,10 @@ public class BallMovementRoy : MonoBehaviour
 
         // Aplicar la fuerza en la dirección calculada
         rb.AddForce(moveDirection * speed);
+        if (rb.velocity.magnitude > 10)
+        {
+            rb.velocity = rb.velocity.normalized * 10;
+        }
         // Saves the direction of movement in the variable directionOfMovement
         directionOfMovement = moveDirection;
     }

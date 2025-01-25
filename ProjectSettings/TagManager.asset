@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Elevator
   - CatPaw
+  - Attacker
   layers:
   - Default
   - TransparentFX

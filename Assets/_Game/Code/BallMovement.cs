@@ -6,7 +6,7 @@ public class PlayerMovementWithCameraPhysics : MonoBehaviour
     [Header("Movement Settings")]
 
     private Rigidbody rb; // Referencia al Rigidbody del jugador.
-    private Vector3 moveDirection; // Dirección calculada para el movimiento.
+    private Vector3 moveDirection; // Direcciï¿½n calculada para el movimiento.
 
     void Start()
     {
@@ -20,13 +20,13 @@ public class PlayerMovementWithCameraPhysics : MonoBehaviour
         float moveZ = Input.GetAxis("Vertical");
 
 
-        // Calcular la dirección del movimiento
+        // Calcular la direcciï¿½n del movimiento
         Vector3 moveDirection = new Vector3(moveX, 0, moveZ).normalized;
         rb.AddForce(moveDirection);
     }
     void FixedUpdate()
     {
-        //// Obtén las entradas del teclado.
+        //// Obtï¿½n las entradas del teclado.
         //float horizontal = Input.GetAxis("Horizontal");
         //float vertical = Input.GetAxis("Vertical");
 
@@ -34,22 +34,22 @@ public class PlayerMovementWithCameraPhysics : MonoBehaviour
         //float moveDirection = horizontal * vertical;
 
 
-        // Calcula la dirección basada en la cámara.
-        //Vector3 forward = cameraTransform.forward; // Dirección hacia adelante de la cámara.
-        //Vector3 right = cameraTransform.right; // Dirección hacia la derecha de la cámara.
+        // Calcula la direcciï¿½n basada en la cï¿½mara.
+        //Vector3 forward = cameraTransform.forward; // Direcciï¿½n hacia adelante de la cï¿½mara.
+        //Vector3 right = cameraTransform.right; // Direcciï¿½n hacia la derecha de la cï¿½mara.
 
-        //// Ignorar la inclinación vertical de la cámara.
+        //// Ignorar la inclinaciï¿½n vertical de la cï¿½mara.
         //forward.y = 0;
         //right.y = 0;
         //forward.Normalize();
         //right.Normalize();
 
-        //// Calcula la dirección de movimiento.
+        //// Calcula la direcciï¿½n de movimiento.
         //moveDirection = (forward * vertical + right * horizontal).normalized;
 
-        //// Mueve al jugador usando las físicas (con AddForce).
+        //// Mueve al jugador usando las fï¿½sicas (con AddForce).
         //Vector3 velocity = moveDirection * moveSpeed;
-        //Vector3 newVelocity = new Vector3(velocity.x, rb.velocity.y, velocity.z); // Mantén la velocidad vertical actual.
+        //Vector3 newVelocity = new Vector3(velocity.x, rb.velocity.y, velocity.z); // Mantï¿½n la velocidad vertical actual.
         //rb.AddForce(newVelocity);
     }
 }

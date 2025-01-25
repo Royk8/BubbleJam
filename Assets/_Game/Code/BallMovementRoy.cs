@@ -4,6 +4,7 @@ public class BallMovementRoy : MonoBehaviour
 {
     public Rigidbody rb;
     public float speed;
+    public float topSpeed;
     public Transform cameraTransform; // Asigna aquí la cámara principal en el inspector.
     public Vector3 directionOfMovement;
 
@@ -28,9 +29,12 @@ public class BallMovementRoy : MonoBehaviour
 
         // Aplicar la fuerza en la dirección calculada
         rb.AddForce(moveDirection * speed);
-        if (rb.velocity.magnitude > 10)
+
+
+        //Caps the speed of the ball
+        if (rb.velocity.magnitude > topSpeed)
         {
-            rb.velocity = rb.velocity.normalized * 10;
+            rb.velocity = rb.velocity.normalized * topSpeed;
         }
         // Saves the direction of movement in the variable directionOfMovement
         directionOfMovement = moveDirection;

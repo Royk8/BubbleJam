@@ -72,7 +72,7 @@ public class HamsterModeHandler : MonoBehaviour
 
         // Sincroniza la posición y velocidad
         Vector3 ballPosition = ball.transform.position;
-        hamster.transform.position = ballPosition - Vector3.up * 0.5f;
+        hamster.transform.position = ballPosition - Vector3.up * 1.5f;
 
         Rigidbody hamsterRb = hamster.GetComponentInChildren<Rigidbody>();
         BallMovementRoy ballMovement = ball.GetComponent<BallMovementRoy>();

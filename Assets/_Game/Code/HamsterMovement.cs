@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class HamsterMovement : MonoBehaviour
@@ -8,6 +9,7 @@ public class HamsterMovement : MonoBehaviour
     public Rigidbody rb;
     public Transform cameraTransform;
     public Transform hamsterModel;
+    
 
     // Start is called before the first frame update
     void Start()
@@ -51,6 +53,7 @@ public class HamsterMovement : MonoBehaviour
         {
             hamsterModel.rotation = Quaternion.LookRotation(moveDirection);
         }
+
 
     }
 }

@@ -7,6 +7,7 @@ public class BallMovementRoy : MonoBehaviour
     public float topSpeed;
     public Transform cameraTransform; // Asigna aquí la cámara principal en el inspector.
     public Vector3 directionOfMovement;
+    public bool isTooFast;
 
     void Update()
     {
@@ -30,6 +31,14 @@ public class BallMovementRoy : MonoBehaviour
         // Aplicar la fuerza en la dirección calculada
         rb.AddForce(moveDirection * speed);
 
+        if (rb.velocity.magnitude > (topSpeed * 0.8f))
+        {
+            isTooFast = true;
+        }
+        else
+        {
+            isTooFast = false;
+        }
 
         //Caps the speed of the ball
         if (rb.velocity.magnitude > topSpeed)

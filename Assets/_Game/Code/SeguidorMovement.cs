@@ -8,6 +8,8 @@ public class SeguidorMovement : MonoBehaviour
     public float targetRotation;
     public float targetSpeed;
     public BallMovementRoy ball;
+    public GiroDescontrolado giroDescontrolado;
+    public AnimationsController animations;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,9 +19,23 @@ public class SeguidorMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        float inputValue = Mathf.Abs(Input.GetAxis("Vertical"));
         transform.position = target.position;
-        RotateToTarget(Mathf.Abs(Input.GetAxis("Vertical")) * targetRotation);
+        RotateToTarget(inputValue * targetRotation);
         RotateTowardsDirection(ball.directionOfMovement);
+
+        if( ball.isTooFast && inputValue < 0.1)
+        {
+            giroDescontrolado.EmpezarAGirar();
+            animations.LetGo(true);
+        }
+        else
+        {
+            giroDescontrolado.PararGiro();
+            animations.LetGo(false);
+        }
+
+        animations.Run(inputValue);
     }
 
     /*

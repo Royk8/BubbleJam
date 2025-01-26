@@ -19,4 +19,5 @@ public class SingletonManager : MonoBehaviour
     }
 
     public HamsterModeHandler hamsterModeHandler;
+    public CameraEffets cameraEffects;
 }

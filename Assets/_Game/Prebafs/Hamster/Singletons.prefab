@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7153034933698096526}
   - component: {fileID: 4560487165535878861}
+  - component: {fileID: 6413011125807950323}
   m_Layer: 0
   m_Name: Singletons
   m_TagString: Untagged
@@ -31,6 +32,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 9180064108529951388}
+  - {fileID: 6317953268977532081}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4560487165535878861
@@ -46,6 +48,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hamsterModeHandler: {fileID: 8859561859773168123}
+  cameraEffects: {fileID: 9114768612623471643}
+--- !u!114 &6413011125807950323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3866179100258302086}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ef88b502767251749880c32332ad4ead, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7351585202458912281
 GameObject:
   m_ObjectHideFlags: 0
@@ -97,3 +112,49 @@ MonoBehaviour:
   isBubbleMode: 1
   hamster: {fileID: 0}
   hamsterModeCameraTarget: {fileID: 0}
+--- !u!1 &8531796134212606572
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6317953268977532081}
+  - component: {fileID: 9114768612623471643}
+  m_Layer: 0
+  m_Name: CameraEffets
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6317953268977532081
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531796134212606572}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7153034933698096526}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9114768612623471643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8531796134212606572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9573cb9ff8a0df841949a63490c857aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  vcam: {fileID: 0}
+  shakeMagnitude: 2

@@ -4,11 +4,21 @@ using UnityEngine;
 
 public class ChangeSceneTrigger : MonoBehaviour
 {
-    private void OnTriggerEnter(Collider other)
+    public float timeToChangeScene = 0.5f;
+    private void OnTriggerExit(Collider other)
+    {
+        timeToChangeScene = 0.5f;
+    }
+
+    private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            SceneLoader.instance.GoToPlayScene();
+            timeToChangeScene -= Time.deltaTime;
+            if (timeToChangeScene <= 0)
+            {
+                SceneLoader.instance.GoToPlayScene();
+            }
         }
     }
 }

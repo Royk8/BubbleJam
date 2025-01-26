@@ -31,7 +31,7 @@ public class BallMovementRoy : MonoBehaviour
         // Aplicar la fuerza en la dirección calculada
         rb.AddForce(moveDirection * speed);
 
-        if (rb.velocity.magnitude > (topSpeed * 0.8f))
+        if (rb.velocity.magnitude > (topSpeed * 0.6f))
         {
             isTooFast = true;
         }
